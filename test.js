@@ -8,6 +8,10 @@ document.getElementById("confirm_fullscreen").addEventListener("click", () => {
     ipcRenderer.send("confirm_fullscreen");
 });
 
-document.getElementById("confirm_normal_screen").addEventListener("click", () => {
-    ipcRenderer.send("confirm_normal_screen");
+ipcRenderer.on("log", () => {
+    console.log('log log');
 });
+
+// document.getElementById("confirm_normal_screen").addEventListener("click", () => {
+//     ipcRenderer.send("confirm_normal_screen");
+// });

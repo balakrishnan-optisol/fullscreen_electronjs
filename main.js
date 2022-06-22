@@ -12,13 +12,16 @@ const createWindow = () => {
         title: "Full screen",
         frame: false,
         x: 'a',
+        focusable: true,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
             enableRemoteModule: true,
-            preload: path.join(__dirname, 'preload.js')
+            // preload: path.join(__dirname, 'preload.js')
         }
     });
+
+    mainWindow.webContents.openDevTools();
 
     if (externalDisplay) {
         console.log('externalDisplay');
@@ -59,6 +62,8 @@ const createWindow = () => {
                 // mainWindow.setResizable(false);
                 // mainWindow.setMovable(false);
                 // mainWindow.setMinimizable(false);
+            } else {
+                ipcMain.emit("log");
             }
         });
 
@@ -92,7 +97,6 @@ function updateToFullScreenRestriction(mainWindow) {
         mainWindow.setFullScreen(true);
         //normal - 2ND,  screen-saver - 1ST, pop-up-menu - 1ST
         mainWindow.setAlwaysOnTop(true, 'pop-up-menu', 1);
-        mainWindow.setFocusable(true);
         mainWindow.setSkipTaskbar(true);
         mainWindow.setVisibleOnAllWorkspaces(true, {
             skipTransformProcessType: true,
@@ -112,7 +116,6 @@ function updateToNormalScreen(mainWindow) {
         mainWindow.setFullScreen(false);
         //normal - 2ND,  screen-saver - 1ST, pop-up-menu - 1ST
         mainWindow.setAlwaysOnTop(false, 'pop-up-menu', 1);
-        mainWindow.setFocusable(true);
         mainWindow.setSkipTaskbar(false);
         mainWindow.setVisibleOnAllWorkspaces(false);
 
