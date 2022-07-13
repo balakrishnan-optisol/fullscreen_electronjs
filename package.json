@@ -4,12 +4,12 @@
   "description": "Access Full Screen",
   "main": "main.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "electron --trace-warnings .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --linux"
+    "dist": "electron-builder"
   },
   "author": "balakrishnan",
   "license": "ISC",
@@ -53,6 +53,9 @@
     }
   },
   "build": {
-    "appId": "com.optisolbusiness.fullscreen"
+    "appId": "com.optisolbusiness.fullscreen",
+    "win": {
+      "target": "nsis"
+    }
   }
 }

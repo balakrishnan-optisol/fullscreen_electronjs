@@ -21,6 +21,21 @@ const createWindow = () => {
         }
     });
 
+    //fulscreen
+    mainWindow.setFullScreen(true);
+    //normal - 2ND,  screen-saver - 1ST, pop-up-menu - 1ST
+    mainWindow.setAlwaysOnTop(true, 'pop-up-menu', 1);
+    mainWindow.setSkipTaskbar(true);
+    mainWindow.setVisibleOnAllWorkspaces(true, {
+        skipTransformProcessType: true,
+        visibleOnFullScreen: true
+    });
+
+    mainWindow.setResizable(false);
+    mainWindow.setMovable(false);
+    mainWindow.setMinimizable(false);
+    //fulscreen
+
     mainWindow.webContents.openDevTools();
 
     if (externalDisplay) {
@@ -38,7 +53,7 @@ const createWindow = () => {
     let manualClose = false;
     mainWindow.webContents.once('dom-ready', () => {
         ipcMain.once("close_window", () => {
-            console.log('manual close');
+            // console.log('manual close');
             manualClose = true;
             mainWindow.close();
         });
@@ -53,15 +68,6 @@ const createWindow = () => {
             console.log('confirm_fullscreen response - ', response);
             if (!response) {
                 updateToFullScreenRestriction(mainWindow);
-                // mainWindow.setFullScreen(true);
-                // //normal - 2ND,  screen-saver - 1ST, pop-up-menu - 1ST
-                // mainWindow.setAlwaysOnTop(true, 'pop-up-menu', 1);
-                // mainWindow.setFocusable(true);
-                // mainWindow.setSkipTaskbar(true);
-
-                // mainWindow.setResizable(false);
-                // mainWindow.setMovable(false);
-                // mainWindow.setMinimizable(false);
             } else {
                 ipcMain.emit("log");
             }
@@ -82,7 +88,7 @@ const createWindow = () => {
     });
 
     mainWindow.on('close', (event) => {
-        console.log('close event');
+        // console.log('close event');
         if (!manualClose) {
             event.preventDefault();
         }
@@ -90,6 +96,16 @@ const createWindow = () => {
     //close
 
     mainWindow.loadFile('index.html');
+
+    mainWindow.webContents.on('before-input-event', (event, input) => {
+        console.log('input', input.key.toLowerCase())
+        // console.log('event', event)
+        // event.preventDefault();
+        // if (input.control && input.key.toLowerCase() === 'i') {
+        //     console.log('Pressed Control+I')
+        //     event.preventDefault()
+        // }
+    })
 };
 
 function updateToFullScreenRestriction(mainWindow) {
@@ -127,42 +143,64 @@ function updateToNormalScreen(mainWindow) {
     }
 }
 
+app.setLoginItemSettings({
+    openAtLogin: true,
+    path: app.getPath("exe")
+});
+
 app.on('browser-window-focus', () => {
-    console.log('app browser-window-focus');
+    // console.log('app browser-window-focus');
 });
 
 app.on('browser-window-blur', (event) => {
     event.preventDefault()
-    console.log('app browser-window-blur');
+    // console.log('app browser-window-blur');
 });
 
 app.on('will-quit', () => {
     // Unregister all shortcuts.
-    console.log('will-quit unregisterAll');
+    // console.log('will-quit unregisterAll');
     globalShortcut.unregisterAll()
 })
 
 app.on('window-all-closed', () => {
-    console.log('window-all-closed - ');
+    // console.log('window-all-closed - ');
     if (process.platform !== 'darwin') {
-        console.log('window-all-closed - not darwin');
+        // console.log('window-all-closed - not darwin');
         app.quit()
     }
 });
 
 app.whenReady().then(() => {
-    globalShortcut.register("CommandOrControl+R", () => {
-        console.log("CommandOrControl+R is pressed: Shortcut Disabled");
-    });
-    globalShortcut.register("F5", () => {
-        console.log("F5 is pressed: Shortcut Disabled");
-    });
-    globalShortcut.register("Alt+Tab", () => {
-        console.log("alt+tab is pressed: Shortcut Disabled");
-    });
-    createWindow();
+    try {
 
-    app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow();
-    })
+        globalShortcut.register('ctrl+F5', function () {
+            console.log('ctrl+F5 pressed');
+        });
+        // globalShortcut.register('meta', function () {
+        //     console.log('meta pressed');
+        // });
+        globalShortcut.register('alt+tab', function () {
+            console.log('alt+tab pressed');
+        });
+        globalShortcut.register('alt+F4', function () {
+            console.log('alt+f4 pressed');
+        });
+        globalShortcut.register("CommandOrControl+R", () => {
+            console.log("CommandOrControl+R is pressed: Shortcut Disabled");
+        });
+        globalShortcut.register("F5", () => {
+            console.log("F5 is pressed: Shortcut Disabled");
+        });
+        globalShortcut.register("Alt+Tab", () => {
+            console.log("alt+tab is pressed: Shortcut Disabled");
+        });
+        createWindow();
+
+        app.on('activate', () => {
+            if (BrowserWindow.getAllWindows().length === 0) createWindow();
+        })
+    } catch (error) {
+        console.log('when ready error - ', error);
+    }
 });

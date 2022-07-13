@@ -11,3 +11,16 @@ button:hover {
     background-color: #0250e0;
     color: #ffffff;
 }
+
+video {
+    pointer-events: none;
+}
+
+video::-webkit-media-controls-start-playback-button {
+    display: none;
+}
+
+video::-webkit-media-controls-panel {
+    display: none !important;
+    opacity: 1 !important;
+}

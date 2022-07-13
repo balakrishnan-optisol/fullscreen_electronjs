@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *;**script-src 'self' http://onlineerp.solution.quebec 'unsafe-inline' 'unsafe-eval';** "> -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src 'self';font-src 'self'; img-src 'self' data: https:; style-src 'self' ; script-src 'self'"> -->
+
     <title>Optisol Business Solution</title>
     <link rel="stylesheet" href="index.css" />
 
@@ -14,7 +17,17 @@
     <h1>Optisol Business Solution</h1>
     <button id="close_window">Close window</button>
 
-    <button id="confirm_fullscreen">Enter full screen</button>
+    <!-- <video width="300" height="200" autoplay="autoplay">
+        <source src="https://optisolbusinessindia.sharepoint.com/sites/all49/Shared%20Documents/General/OBS%20RR%20HQ.mp4.mp4" type="video/mp4" />
+    </video> -->
+
+    <!-- <video src="https://optisolbusinessindia.sharepoint.com/sites/all49/Shared%20Documents/General/OBS%20RR%20HQ.mp4.mp4">
+        Your browser does not support the VIDEO tag and/or RTP streams.
+    </video> -->
+
+    <iframe src="https://optisolbusinessindia.sharepoint.com/sites/all49/Shared%20Documents/General/OBS%20RR%20HQ.mp4.mp4"></iframe>
+
+    <!-- <button id="confirm_fullscreen">Enter full screen</button> -->
 
     <!-- <button id="confirm_normal_screen">Normal Screen</button> -->
 
