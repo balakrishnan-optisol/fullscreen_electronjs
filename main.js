@@ -21,7 +21,7 @@ const createWindow = () => {
         }
     });
 
-    //fulscreen
+    //fullscreen
     mainWindow.setFullScreen(true);
     //normal - 2ND,  screen-saver - 1ST, pop-up-menu - 1ST
     mainWindow.setAlwaysOnTop(true, 'pop-up-menu', 1);
@@ -34,9 +34,9 @@ const createWindow = () => {
     mainWindow.setResizable(false);
     mainWindow.setMovable(false);
     mainWindow.setMinimizable(false);
-    //fulscreen
+    //fullscreen
 
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
 
     if (externalDisplay) {
         console.log('externalDisplay');
